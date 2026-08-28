@@ -29,3 +29,13 @@ error_gcc(){
     log_write "build" "0s" "2" "Erro: o gcc não foi instalado " #utiliza log_write e escre o log de erro_gcc
     exit 2 #retorna o valor 2 (código do erro do gcc) e termina o script 
 }
+
+#error_compile: uma função que diz que o erro foi de compilação do gcc
+#recebe um argumento opcional (uma mensagem) que o gcc produz 
+#retorna sempre 3 
+error_compile(){
+    local msg="${1:-Falha em compilar}" #coloca a mensagem como padrão, caso não receba nenhuma mensagem do GCC
+    echo "Erro na compilação: $msg">&2 #direciona para o canal stderr
+    log_write "build" "0s" "3" "Erro: $msg"
+    exit 3 #retorna o código 3 e encerra o script 
+}
