@@ -10,3 +10,13 @@ error_n_exec(){
     log_write "run" "0s" "7" "Erro: o executável não foi encontrado pela função run, utilize build para compilar antes" #escreve o log no arquivo logs/cbuil.log
     exit 7
 }
+
+#erro_n_dic: o erro de não existir o diretório, a build não acha ele 
+#argumentos: cam (caminho atual)
+#retorna sempre 1 
+error_n_dic(){
+    local cam="$1" #guarda a variável do caminho que será utilizado depois 
+    echo "Erro: o diretório não foi encontrado pela build: $cam">&2 #utiliza a variável caminho para indicar o caminho e encaminha para stderr
+    log_write "build" "0s" "1" "Erro: o diretório não foi encontrado pela build: $cam" #utiliza a função log_write para escrever o log de erro_n_dic
+    exit 1 #devolve o valor 1 (código do erro) e termina o script
+}
