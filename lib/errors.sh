@@ -20,3 +20,12 @@ error_n_dic(){
     log_write "build" "0s" "1" "Erro: o diretório não foi encontrado pela build: $cam" #utiliza a função log_write para escrever o log de erro_n_dic
     exit 1 #devolve o valor 1 (código do erro) e termina o script
 }
+
+#error_gcc: o gcc não foi instalado 
+#não recebe nenhum argumento 
+#retorna sempre 2 
+error_gcc(){
+    echo "Erro: o gcc não foi instalado ">&2 #a função leva a mensagem de erro para o canal stderr
+    log_write "build" "0s" "2" "Erro: o gcc não foi instalado " #utiliza log_write e escre o log de erro_gcc
+    exit 2 #retorna o valor 2 (código do erro do gcc) e termina o script 
+}
