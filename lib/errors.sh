@@ -39,3 +39,13 @@ error_compile(){
     log_write "build" "0s" "3" "Erro: $msg"
     exit 3 #retorna o código 3 e encerra o script 
 }
+
+#error_n_src: uma função que diz que dá erro quando o arquivo não existe, ou não foi encontrado 
+#argumento: não necessita de argumento 
+#retorna sempre 4
+
+error_n_src(){
+    echo "O arquivo .c não foi encontrado no src">&2 #encaminha para o canal stderr (de erro)
+    log_write "build" "0s" "4" "Erro: o arquivo .c não foi encontrado no src" #utiliza log_write para escrever o log 
+    exit 4 #retorna o valor 4 e termina o script 
+}
