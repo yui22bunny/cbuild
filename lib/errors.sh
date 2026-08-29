@@ -49,3 +49,13 @@ error_n_src(){
     log_write "build" "0s" "4" "Erro: o arquivo .c não foi encontrado no src" #utiliza log_write para escrever o log 
     exit 4 #retorna o valor 4 e termina o script 
 }
+
+#error_perm: erro quando falta permissaão de execução para o arquivo ou diretório 
+#argumentos: recebe o caminho do arquivo ou diretório
+#retorna sempre 5 
+error_perm(){
+    local cam="$1" #guarda a variável do caminho que será utilizado 
+    echo "Erro: o arquivo ou diretório não tem permissão de execução: $cam">&2 #encaminha a mensagem para o canal de erro 
+    log_write "build" "0s" "5" "Erro: o arquivo ou diretório não tem permissão de execução: $cam" #utiliza log_write para escrever o log
+    exit 5 #retorna o valor 5 e termina o script 
+}
