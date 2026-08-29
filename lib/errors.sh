@@ -59,3 +59,13 @@ error_perm(){
     log_write "build" "0s" "5" "Erro: o arquivo ou diretório não tem permissão de execução: $cam" #utiliza log_write para escrever o log
     exit 5 #retorna o valor 5 e termina o script 
 }
+
+#error_command: o erro aparece quando o comando digitado é inválido
+#argumento: comando digitado pelo usuário
+#retorna sempre 6
+error_command(){
+    local cmd="$1" #guarda a variável do comando digitado pelo usuário
+    echo "Erro: o comando digitado é inválido: $cmd, temos os comandos válidos: build , run , clean , rebuild , info">&2 #encaminha a mensagem para o canal de erro 
+    log_write "$cmd" "0s" "6" "Erro: o comando digitado é inválido: $cmd" #utiliza log_write para escrever o log
+    exit 6 #retorna 6 e termina o script 
+}
