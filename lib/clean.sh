@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # clean_execute
+# Argumentos: nenhum
 # Remove os arquivos gerados durante a compilacao
 # Retorno:
 #   0 - sucesso
