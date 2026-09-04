@@ -16,3 +16,17 @@ count_linecode(){
     total=$(find src include -name "*.c" -o -name "*.h" | xargs wc -l | tail -1 | awk '{print $1}')
     echo "$total"
 }
+
+#exec_size: função que calcula o tamanho do executável 
+#não tem argumentos 
+#retorna o tamanho do executável em bytes
+exec_size(){
+    local caminho="${BUILD_DIR}/${EXEC_NAME}"
+    local tam
+    if [ -f "$caminho" ]; then
+        tam=$(ls -lh "$caminho" | awk '{print $5}')
+    else
+        tam="Nenhum executalvel foi encontrado (compile o projeto antes)"
+    fi
+    echo "$tam"
+}
