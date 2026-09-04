@@ -55,7 +55,24 @@ data_exec(){
          echo "$data"
     fi
 }
+#info_run: função que junta todas as estatísticas de (count_file;count_linecode;exec_size;data_compile;data_exec) em um só relatório
+#não tem argumentos
+#não retorna nada, imprime na tela o relatório
+info_run(){
+    local tot_arq tot_line tam_exec ult_comp ult_exec
+    tot_arq=$(count_file)
+    tot_line=$(count_linecode)
+    tam_exec=$(exec_size)
+    ult_comp=$(data_compile)
+    ult_exec=$(data_exec)
 
+    echo "||||||||||Estatísticas do Projeto||||||||||"
+    echo "Quantidade de arquivos (.c/.h): $tot_arq"
+    echo "Quantidade de linhas de código: $tot_line"
+    echo "Tamanho do executável: $tam_exec"
+    echo "Data da última compilação: $ult_comp"
+    echo "Data da última execução: $ult_exec"
+}
 
  
- 
+
