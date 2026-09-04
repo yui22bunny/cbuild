@@ -30,3 +30,16 @@ exec_size(){
     fi
     echo "$tam"
 }
+
+#data_compile: função que retorna a data da última compilação 
+#sem argumentos
+#retorna data da última compilação
+data_compile(){
+    local data
+    data=$(grep "|build|.*|0|" logs/cbuild.log | tail -1 | awk -F'|' '{print $1}')
+    if [ -z "$data" ];then
+        echo "Não houve nenhuma compilação"
+    else 
+         echo "$data"
+    fi
+}
