@@ -43,3 +43,19 @@ data_compile(){
          echo "$data"
     fi
 }
+#data_exec: função que retorna a data da última execução
+#sem argumentos
+#retorna data da última execução
+data_exec(){
+    local data
+    data=$(grep "|run|.*|0|" logs/cbuild.log | tail -1 | awk -F'|' '{print $1}')
+    if [ -z "$data" ];then
+        echo "Não houve nenhuma execução"
+    else 
+         echo "$data"
+    fi
+}
+
+
+ 
+ 
