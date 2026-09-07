@@ -22,20 +22,18 @@ fi
 mapfile -t arquivos_c < <(find ./src -name "*.c" -type f)
 
 mkdir -p "$BUILD_DIR" #cria o diretório build caso não exista
+rm -f "$BUILD_DIR"/*.o #remove os arquivos .o antigos do diretório build
 
-#checa arquivo por arquivo no array em arquivos_c, compila e cria o .o na pasta build
 for arquivo in "${arquivos_c[@]}"; do
     objeto="$BUILD_DIR/$(basename "$arquivo" .c).o"
-    if [[ "$arquivo" -nt "$objeto" ]]; then
-        gcc $CFLAGS -c "$arquivo" -o "$objeto"
-        if [[ $? -ne 0 ]]; then
-            error_compile 
-        fi
+    gcc $CFLAGS -c "$arquivo" -o "$objeto"
+    if [[ $? -ne 0 ]]; then
+        error_compile 
     fi
-done
+    done
 
 gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"
-
 if [[ $? -ne 0 ]]; then
-    error_compile "Falha na compilação"
-fi
+        error_compile 
+    fi
+
