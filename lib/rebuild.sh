@@ -1,4 +1,5 @@
 #!/bin/bash
+rebuild_run(){
 source ./erros.sh
 source ../include/extra.sh
 
@@ -64,7 +65,7 @@ for arquivo in "${arquivos_c[@]}"; do
  #Caso o modo verboso esteja ativado, mostra o progresso de compilação
  if [[ $VERBOSE -eq 1 ]]; then
     contador=$((contador + 1))
-    printf "\rCompilando arquivos (%d/%d): %s" "$contador" "$total" "$(ba>
+    printf "\rCompilando arquivos (%d/%d): %s" "$contador" "$total" "$(basename "$arquivo" .c)"
  fi
     objeto="$BUILD_DIR/$(basename "$arquivo" .c).o"
     gcc $CFLAGS -c "$arquivo" -o "$objeto"
@@ -78,3 +79,4 @@ if [[ $? -ne 0 ]]; then
         error_compile 
     fi
 
+}

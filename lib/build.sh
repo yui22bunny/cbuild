@@ -1,4 +1,5 @@
 #!/bin/bash
+build_run(){
 source ./erros.sh
 source ../include/extra.sh
 
@@ -87,3 +88,4 @@ gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"
 if [[ $? -ne 0 ]]; then
     error_compile
 fi
+}
