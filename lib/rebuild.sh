@@ -5,7 +5,7 @@ source ../include/extra.sh
 VERBOSE=0
 DEBUG=0
 
-#Verifica as opções do comando, enquanto ainda restar pelo menos 1 argumento
+#Verifica as opções do comando, enquanto ainda restar pelo menos 1 argume>
 while [[ $# -gt 0 ]]; do 
   #Ativa o modo verboso se o usuário digitar a opção -verbose
   if [[ "$1" == "--verbose" ]]; then
@@ -20,7 +20,7 @@ while [[ $# -gt 0 ]]; do
   fi 
 done
 
-#ativa o trace de comandos do bash se o usuário ativar o modo debug. Desse modo, até o fim do script todo comando executado será impresso no terminal (prefixado com "+ [DEBUG TRACE]"), incluindo os comandos dentro das funções verb/debug e de todos ifs e loops
+#ativa o trace de comandos do bash se o usuário ativar o modo debug. Dess>
 
 if [[ $DEBUG -eq 1 ]]; then
   export PS4='+ [DEBUG TRACE] '
@@ -52,38 +52,29 @@ mapfile -t arquivos_c < <(find ./src -name "*.c" -type f)
 debug "Arquivos .c encontrados no diretório: ${arquivos_c[*]}"
 
 verb "Gerando o diretório build."
+
+
 mkdir -p "$BUILD_DIR" #cria o diretório build caso não exista
+rm -f "$BUILD_DIR"/*.o #remove os arquivos .o antigos do diretório build
 
-#descobre quais arquivos realmente precisam recompilar
-arquivos_para_compilar=()
-for arquivo in "${arquivos_c[@]}"; do
-    objeto="$BUILD_DIR/$(basename "$arquivo" .c).o"
-    if [[ "$arquivo" -nt "$objeto" ]]; then
-        arquivos_para_compilar+=("$arquivo")
-    fi
-done
-
-total=${#arquivos_para_compilar[@]}
+total=${#arquivos_c[@]}
 contador=0
 
-# compila só os que precisam
-for arquivo in "${arquivos_para_compilar[@]}"; do
+for arquivo in "${arquivos_c[@]}"; do
+ #Caso o modo verboso esteja ativado, mostra o progresso de compilação
+ if [[ $VERBOSE -eq 1 ]]; then
+    contador=$((contador + 1))
+    printf "\rCompilando arquivos (%d/%d): %s" "$contador" "$total" "$(ba>
+ fi
     objeto="$BUILD_DIR/$(basename "$arquivo" .c).o"
-
-    if [[ $VERBOSE -eq 1 ]]; then
-        contador=$((contador + 1))
-        printf "\rCompilando arquivos (%d/%d): %s" "$contador" "$total" "$(basename "$arquivo")"
-    fi
-
-    debug "Recompilando: $arquivo -> $objeto."
     gcc $CFLAGS -c "$arquivo" -o "$objeto"
-    if [[ $? -ne 0 ]]; then
-        error_compile
-    fi
+ if [[ $? -ne 0 ]]; then
+        error_compile 
+ fi
 done
 
-verb "Linkando os arquivos objeto e gerando o executável"
 gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"
 if [[ $? -ne 0 ]]; then
-    error_compile
-fi
+        error_compile 
+    fi
+
