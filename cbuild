@@ -1,0 +1,39 @@
+#!/bin/bash
+
+source lib/errors.sh
+source lib/logs.sh
+source include/extra.sh
+source lib/config.sh
+source lib/build.sh
+source lib/rebuild.sh
+source lib/clean.sh
+source lib/info.sh
+source lib/run.sh
+
+#Carrega as configurações
+load_config
+
+#Obtém o comando passado como primeiro argumento 
+comando="$1"
+shift
+#Executa a função correspondente ao comando digitado
+case "$comando" in
+	build)
+		build_run
+		;;
+	rebuild)
+		rebuild_run
+		;;
+	clean)
+		clean_execute
+		;;
+	info)
+		info_run
+		;;
+	run)
+		run_execute
+		;;
+	*)
+		error_command
+		;;
+esac
