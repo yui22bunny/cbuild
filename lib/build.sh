@@ -8,11 +8,11 @@ DEBUG=0
 build() {
 #Verifica as opções do comando, enquanto ainda restar pelo menos 1 argumento
 while [[ $# -gt 0 ]]; do 
-  #Ativa o modo verboso se o usuário digitar a opção -verbose
+  #Ativa o modo verboso se o usuário digitar a opção --verbose
   if [[ "$1" == "--verbose" ]]; then
     VERBOSE=1
     shift
-  #Ativa o modo debug caso o usuário digite a opção -debug
+  #Ativa o modo debug caso o usuário digite a opção --debug
   elif [[ "$1" == "--debug" ]]; then
     DEBUG=1
     shift
@@ -50,10 +50,12 @@ fi
 
 #cria um array chamado arquivos_c e põe em cada posição um arquivo .c encontrado em src
 mapfile -t arquivos_c < <(find ./src -name "*.c" -type f)
+#flag -t tira a quebra de linha no final de cada arquivo lido pra não dar erros inesperados
 debug "Arquivos .c encontrados no diretório: ${arquivos_c[*]}"
 
 verb "Gerando o diretório build."
 mkdir -p "$BUILD_DIR" #cria o diretório build caso não exista
+#a flag -p serve pra evitar erro se a pasta já existir, sem a flag caso existisse o diretório daria erro
 
 #descobre quais arquivos realmente precisam recompilar
 arquivos_para_compilar=()
@@ -85,6 +87,7 @@ done
 
 verb "Linkando os arquivos objeto e gerando o executável"
 gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"
+#$? dá o resultado do último comando
 if [[ $? -ne 0 ]]; then
     error_compile
 fi
