@@ -14,6 +14,7 @@ count_file(){
 count_linecode(){
     local total
     total=$(find src include -name "*.c" -o -name "*.h" | xargs wc -l | tail -1 | awk '{print $1}')
+    total=${total:-0}  # Se total for vazio, define como 0
     echo "$total"
 }
 
@@ -74,5 +75,69 @@ info_run(){
     echo "Data da última execução: $ult_exec"
 }
 
- 
+#count_builds():função auxiliar para gen_reports
+#agurmentos: nenhum
+#retorna a quantidade de builds feitas 
+count_builds(){
+    local build
+    build=$(grep "|build|.*" logs/cbuild.log | wc -l)
+    echo "$build"
+}
 
+#count_builds_suc(): função auxiliar de gen_reports() que conta as builds que deram certo
+#argumentos: nenhum
+#retorna a quantidade de builds que deram certo 
+count_builds_suc(){
+    local build
+    build=$(grep "|build|.*|0|" logs/cbuild.log | wc -l)
+    echo "$build"
+}
+
+#count_runs():função auxiliar para gen_reports
+#agurmentos: nenhum
+#retorna a quantidade de runs feitas 
+count_runs(){
+    local run
+    run=$(grep "|run|.*" logs/cbuild.log | wc -l)
+    echo "$run"
+}
+
+#count_runs_suc(): função auxiliar de gen_reports() que conta as runs que deram certo
+#argumentos: nenhum
+#retorna a quantidade de runs que deram certo 
+count_runs_suc(){
+    local run
+    run=$(grep "|run|.*|0|" logs/cbuild.log | wc -l)
+    echo "$run"
+}
+
+#gen_report: gea um relatório completo do projeto 
+#argumentos: nenhum
+#retorna: não retorna nada, gera um arquivo logs/relatorio.txt com estatíticas do projeto 
+gen_report() {
+    local total_builds total_builds_suc total_builds_falha
+    local total_runs total_runs_suc total_runs_falha
+
+    total_builds=$(count_builds)
+    total_builds_suc=$(count_builds_suc)
+    total_builds_falha=$((total_builds - total_builds_suc))
+
+    total_runs=$(count_runs)
+    total_runs_suc=$(count_runs_suc)
+    total_runs_falha=$((total_runs - total_runs_suc))
+
+    {
+        echo "=== Relatório do Projeto ==="
+        echo "Arquivos (.c/.h): $(count_file)"
+        echo "Linhas de código: $(count_linecode)"
+        echo "Tamanho do executável: $(exec_size)"
+        echo "Última compilação: $(data_compile)"
+        echo "Última execução: $(data_exec)"
+        echo ""
+        echo "=== Histórico de Operações ==="
+        echo "Builds executados: $total_builds (sucesso: $total_builds_suc, falha: $total_builds_falha)"
+        echo "Runs executados: $total_runs (sucesso: $total_runs_suc, falha: $total_runs_falha)"
+    } > logs/relatorio.txt
+
+    echo "Relatório gerado em logs/relatorio.txt"
+}
