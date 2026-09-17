@@ -19,19 +19,19 @@ shift
 #Executa a função correspondente ao comando digitado
 case "$comando" in
 	build)
-		build_run
+		build_run "$@" #"$@" repassa todos os argumentos que sobraram para dentro da função, sem isso o --verbose e o --debug nunca chegam no while dentro do build_run
 		;;
 	rebuild)
-		rebuild_run
-		;;
+		rebuild_run "$@"
+ 		;;
 	clean)
-		clean_execute
+		clean_execute "$@"
 		;;
 	info)
-		info_run
+		info_run 
 		;;
 	run)
-		run_execute
+		run_execute "$@"
 		;;
 	*)
 		error_command

@@ -9,7 +9,7 @@ build_run() {
 while [[ $# -gt 0 ]]; do 
   #Ativa o modo verboso se o usuário digitar a opção --verbose
   if [[ "$1" == "--verbose" ]]; then
-    VERBOSE=1
+VERBOSE=1
     shift
   #Ativa o modo debug caso o usuário digite a opção --debug
   elif [[ "$1" == "--debug" ]]; then
@@ -74,7 +74,7 @@ for arquivo in "${arquivos_para_compilar[@]}"; do
 
     if [[ $VERBOSE -eq 1 ]]; then
         contador=$((contador + 1))
-        printf "\rCompilando arquivos (%d/%d): %s" "$contador" "$total" "$(basename "$arquivo")"
+        printf "\rCompilando arquivos (%d/%d): %s\033[K" "$contador" "$total" "$(basename "$arquivo")"
     fi
 
     debug "Recompilando: $arquivo -> $objeto."
@@ -83,6 +83,8 @@ for arquivo in "${arquivos_para_compilar[@]}"; do
         error_compile
     fi
 done
+
+[[ $VERBOSE -eq 1 && $contador -gt 0 ]] && echo #caso o verboso esteja ativado quebra a linha depois de imprimir a mensagem de "Compilando arquivos..." do for acima. Se o for nao rodar nenhuma vez, isto é, se nenhum arquivo precisava recompilar, o $contador -gt 0 e essa linha é ignorada
 
 verb "Linkando os arquivos objeto e gerando o executável"
 gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"

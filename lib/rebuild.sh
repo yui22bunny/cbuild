@@ -63,7 +63,7 @@ for arquivo in "${arquivos_c[@]}"; do
  #Caso o modo verboso esteja ativado, mostra o progresso de compilação
  if [[ $VERBOSE -eq 1 ]]; then
     contador=$((contador + 1))
-    printf "\rCompilando arquivos (%d/%d): %s" "$contador" "$total" "$(basename "$arquivo")"
+    printf "\rCompilando arquivos (%d/%d): %s\033[K" "$contador" "$total" "$(basename "$arquivo")"
  fi
     objeto="$BUILD_DIR/$(basename "$arquivo" .c).o"
     gcc $CFLAGS -c "$arquivo" -o "$objeto"
@@ -71,7 +71,7 @@ for arquivo in "${arquivos_c[@]}"; do
         error_compile 
  fi
 done
-
+[[ $VERBOSE -eq 1 ]] && echo
 gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"
 if [[ $? -ne 0 ]]; then
         error_compile 
