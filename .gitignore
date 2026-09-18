@@ -1,4 +1,1 @@
-build/
-logs/
-*.o
-*.out
+.DS_Store
