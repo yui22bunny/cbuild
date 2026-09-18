@@ -76,5 +76,6 @@ gcc $CFLAGS "$BUILD_DIR"/*.o -o "$BUILD_DIR/$EXEC_NAME"
 if [[ $? -ne 0 ]]; then
         error_compile 
     fi
+    log_write "rebuild" "0s" "0" "OK"
 
 }

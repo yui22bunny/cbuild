@@ -35,14 +35,16 @@ fi
 
     if [ ! -d "$build_dir" ]; then
         echo "Diretorio de build nao existe"
+        log_write "clean" "0s" "0" "Nada para limpar"
         return 0
     fi
 
     if [ ! -w "$build_dir" ]; then
         echo "Erro: permissao insuficiente"
-        return 5
+        error_perm
     fi
     verb "Removendo conteúdo de $build_dir/"
     rm -rf "$build_dir"/*
+    log_write "clean" "0s" "0" "OK"
     return 0
 }

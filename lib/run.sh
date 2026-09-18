@@ -36,8 +36,9 @@ done
 
     if [ ! -x "$executavel" ]; then
         echo "Erro: executavel nao encontrado"
-        return 7
+        error_n_exec
     fi
     verb "Executando o $executavel"
     "$executavel"
+    log_write "run" "0s" "0" "OK"
 }
