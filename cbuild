@@ -28,7 +28,7 @@ case "$comando" in
 		clean_execute "$@"
 		;;
 	info)
-		info_run 
+		info_run "$@" 
 		;;
 	run)
 		run_execute "$@"

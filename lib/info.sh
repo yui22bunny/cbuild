@@ -73,6 +73,9 @@ info_run(){
     echo "Tamanho do executável: $tam_exec"
     echo "Data da última compilação: $ult_comp"
     echo "Data da última execução: $ult_exec"
+    if [[ "${1:-}" == "--report" ]]; then
+        gen_report
+    fi
 }
 
 #count_builds():função auxiliar para gen_reports
@@ -117,7 +120,7 @@ count_runs_suc(){
 gen_report() {
     local total_builds total_builds_suc total_builds_falha
     local total_runs total_runs_suc total_runs_falha
-
+    mkdir -p logs
     total_builds=$(count_builds)
     total_builds_suc=$(count_builds_suc)
     total_builds_falha=$((total_builds - total_builds_suc))
