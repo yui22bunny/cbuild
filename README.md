@@ -206,15 +206,6 @@ Cada registro possui informações como:
 - código de retorno;
 - mensagem da operação.
 
-Exemplo:
-
-```text
-2026-09-17|23:16:33|build|0s|0|OK
-2026-09-17|23:16:33|run|0s|0|OK
-```
-
-As operações que terminam com sucesso e as operações que apresentam erro podem ser consultadas posteriormente através desse arquivo.
-
 ## Geração de relatório
 
 O comando `info` também permite gerar um relatório sobre o estado do projeto e o histórico das operações.
@@ -262,6 +253,6 @@ Quando ocorre uma falha, a ferramenta apresenta uma mensagem informando o proble
 
 ## Organização do desenvolvimento
 
-Durante o desenvolvimento foi utilizada a branch `develop` para reunir e testar as funcionalidades antes da integração final.
+Durante o desenvolvimento foi utilizada a branch `develop` para reunir e testar as funcionalidades antes da integração
 
-A branch `main` contém a versão estável do projeto.
+A branch `main` contém a versão final do projeto.
